@@ -22,8 +22,8 @@ namespace Codecool.Battleship.DataModel {
 	}
 
 	public class Player {
-		public List<Ship> ship;
-		public List<Location> hit, miss, sunk;
+		public List<Ship> ships;
+		public List<Location> hits, misses, sunks;
 		public bool IsAI;
 		public string name;
 		public Player(string who) { 

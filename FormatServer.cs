@@ -24,13 +24,15 @@ namespace Codecool.Battleship.FormatServer
 		}
 	}
 	public class Display {
-		public Show(string msg) {
+		public void Show(string msg) {
 		}
 	}
 	public class Input {
 		public Location ReadLocation() {
 		}
 		public int ReadInt() {
+		}
+		public string ReadString() {
 		}
 	}
 }

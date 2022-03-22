@@ -23,9 +23,7 @@ namespace Codecool.Battleship
 		}
 		private void WinMessage(int who) {
 		}
-		public Battleship() {
-		}
-		public Battleship(bool AiPlayer1,bool AiPlayer2) {
+		public Battleship(Input cin,Display cout) {
 		}
 		void ToggleAiPlayer(int player) {
 		}

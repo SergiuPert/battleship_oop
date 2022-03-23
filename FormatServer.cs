@@ -10,7 +10,7 @@ namespace Codecool.Battleship.FormatServer
 		}
 	}
 	public class Board {
-		private int _size;
+		public int size { get; set; }
 		private Square[,] map;
 		public Board(int size) {
 		}
@@ -22,9 +22,13 @@ namespace Codecool.Battleship.FormatServer
 		}
 		public override string ToString() {
 		}
+		public bool ValidLocation(Location where) {
+		}
 	}
 	public class Display {
 		public void Show(string msg) {
+		}
+		public void Clear() {
 		}
 	}
 	public class Input {

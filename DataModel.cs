@@ -6,7 +6,7 @@ namespace Codecool.Battleship.DataModel {
 		public int y { get; set; }
 		public Location(int row, int col) {
 		}
-		public override bool Equals(Location l) {
+		public override bool Equals(object l) {
 		}
 
 	}
@@ -22,13 +22,13 @@ namespace Codecool.Battleship.DataModel {
 	}
 
 	public class Player {
-		public List<Ship> ship;
+		public List<Ship> ships;
 		public List<Location> hit, miss, sunk;
-		public bool IsAI;
-		public string name;
+		public bool IsAI {get;set;}
+		public string Name{ get; set;}
 		public Player(string who) { 
 		}
-		public void CheckIfHit(Location where, Player oponent) { 
+		public int CheckIfHit(Location where, Player oponent) { 
 		}
 		public Location PickHit(int maxSize) { 
 		}

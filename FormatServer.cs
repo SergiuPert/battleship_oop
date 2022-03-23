@@ -1,5 +1,6 @@
 using Codecool.Battleship.DataModel;
 using System;
+using System.Collections.Generic;
 
 namespace Codecool.Battleship.FormatServer
 {
@@ -43,7 +44,7 @@ namespace Codecool.Battleship.FormatServer
 		{
 			foreach (Ship ship in player.ships)
             {
-				foreach (Location location in ship.FieldMap())
+				foreach (Location location in ship.GetFieldMap())
                 {
 					map[location.x, location.y]._status = "B";
                 }
@@ -56,21 +57,31 @@ namespace Codecool.Battleship.FormatServer
 				for (int col = 0; col < map.GetLength(1); col++)
                 {
 					location = new Location(row, col);
-					if (player.hits.Contains(location))
+					if (LocationInList(location, player.hits))
                     {
 						map[row, col]._status = "H";
                     }
-					else if (player.misses.Contains(location))
+					else if (LocationInList(location, player.misses))
 					{
 						map[row, col]._status = "M";
 					}
-					else if (player.sunks.Contains(location))
+					else if (LocationInList(location, player.sunks))
 					{
 						map[row, col]._status = "S";
 					}
 				}
-
 		}
+		public bool LocationInList(Location location, List<Location> locations)
+        {
+			foreach(Location target in locations)
+            {
+				if (target.x == location.x && target.y == location.y)
+                {
+					return true;
+                }
+            }
+			return false;
+        }
 		public override string ToString() //print board
 		{
 			string msg = "";

@@ -1,4 +1,4 @@
-using Codecool.Battleship.DataModel;
+﻿using Codecool.Battleship.DataModel;
 using System;
 using System.Collections.Generic;
 
@@ -16,7 +16,7 @@ namespace Codecool.Battleship.FormatServer
 	}
 	public class Board {
 		public int size { get; set; }
-		private Square[,] map;
+		public Square[,] map;
 		public Board(int Size) 
 		{
 			size = Size;
@@ -36,7 +36,7 @@ namespace Codecool.Battleship.FormatServer
 			{
 				for (int col = 0; col < map.GetLength(1); col++)
 				{
-					map[row, col].status = "*";
+					map[row, col].status = "≋";
 				}
 			}
 		}
@@ -46,7 +46,7 @@ namespace Codecool.Battleship.FormatServer
             {
 				foreach (Location location in ship.GetFieldMap())
                 {
-					map[location.x, location.y].status = "B";
+					map[location.x, location.y].status = "⚓";
                 }
             } 
 		}
@@ -59,15 +59,15 @@ namespace Codecool.Battleship.FormatServer
 					location = new Location(row, col);
 					if (LocationInList(location, player.hits))
                     {
-						map[row, col].status = "H";
+						map[row, col].status = "♨";
                     }
 					else if (LocationInList(location, player.misses))
 					{
-						map[row, col].status = "M";
+						map[row, col].status = "☀";
 					}
 					else if (LocationInList(location, player.sunks))
 					{
-						map[row, col].status = "S";
+						map[row, col].status = "☠";
 					}
 				}
 		}
@@ -84,44 +84,7 @@ namespace Codecool.Battleship.FormatServer
         }
 		public override string ToString() //print board
 		{
-			string msg = "";
-			string tableStart = "   ";
-			for (int row = 0; row < size; row++)
-			{
-				if (row < 9)
-				{
-					tableStart += $" {row + 1}  ";
-				}
-				else
-				{
-					tableStart += $" {row + 1} ";
-				}
-			}
-			//Console.WriteLine(tableStart);
-			msg += tableStart + "\n";
-			string breakLine = "  -" + new string('-', 4 * size);
-			//Console.WriteLine(breakLine);
-			msg += breakLine + "\n";
-			for (int row = 0; row < size; row++)
-			{
-				string rowStart = $"{(char)('A' + row)} |";
-				//Console.Write(rowStart);
-				msg += rowStart;
-				for (int col = 0; col < size; col++)
-				{
-					//Console.Write(" ");
-					msg += " ";
-					//Console.Write(board[row, col]._status);
-					msg += map[row, col].status;
-					//Console.Write(" |");
-					msg += " |";
-				}
-				//Console.WriteLine();
-				msg += "\n";
-				//Console.WriteLine(breakLine);
-				msg += breakLine + "\n";
-			}
-			return msg;
+			return "a";
 		}
 		public bool ValidLocation(Location location) // checks if the location exists
         {
@@ -139,6 +102,65 @@ namespace Codecool.Battleship.FormatServer
 		public void Show(string msg) 
 		{
             Console.WriteLine(msg);
+		}
+		public void PringBoard(Board board)
+        {
+			//string msg = "";
+			string tableStart = "   ";
+			for (int row = 0; row < board.size; row++)
+			{
+				if (row < 9)
+				{
+					tableStart += $" {row + 1}  ";
+				}
+				else
+				{
+					tableStart += $" {row + 1} ";
+				}
+			}
+            Console.WriteLine(tableStart);
+            //msg += tableStart + "\n";
+            //string breakLine = "  -" + new string('-', 4 * size);
+            //Console.WriteLine(breakLine);
+            //msg += breakLine + "\n";
+            for (int row = 0; row < board.size; row++)
+			{
+				string rowStart = $"{(char)('A' + row)} |";
+                Console.Write(rowStart);
+                //msg += rowStart;
+				for (int col = 0; col < board.size; col++)
+				{
+                    Console.Write(" ");
+					//msg += " ";
+					switch (board.map[row, col].status)
+					{
+						case "☀":
+							Console.ForegroundColor = ConsoleColor.Blue;
+							break;
+						case "☠":
+							Console.ForegroundColor = ConsoleColor.Red;
+							break;
+						case "♨":
+							Console.ForegroundColor = ConsoleColor.Red;
+							break;
+						case "≋":
+							Console.ForegroundColor = ConsoleColor.Blue;
+							break;
+						default:
+							Console.ForegroundColor = ConsoleColor.White;
+							break;
+					}
+					Console.Write(board.map[row, col].status);
+					Console.ForegroundColor = ConsoleColor.White;
+					//msg += board[row, col].status;
+					Console.Write(" ");
+                    //msg += " |";
+				}
+                Console.WriteLine();
+                //msg += "\n";
+                //Console.WriteLine(breakLine);
+                //msg += breakLine + "\n";
+            }
 		}
 		public void Clear()
         {

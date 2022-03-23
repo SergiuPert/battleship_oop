@@ -6,9 +6,16 @@ using System.IO;
 
 namespace Codecool.Battleship
 {
+	public enum BoatType{
+		Submarine = 1,
+		Destroyer = 2,
+		Cruiser = 3,
+		Battleship = 4,
+		Carrier = 5
+	};
 	public class Battleship {
 		private int currentPlayer;
-		private int[] shipSize;
+		private List<int> fleet;
 		private Player[] player;
 		private Board board;
 		private Input keyboard;
@@ -16,10 +23,16 @@ namespace Codecool.Battleship
 		private void DefineFleet() {
 			screen.Show("How many ships do you wish to have?");
 			int size = keyboard.ReadInt();
-			shipSize = new int[size];
-			for(int i = 0; i < size; i++) {
-				screen.Show($"Please choose desired length for ship {i + 1}");
-				shipSize[i] = keyboard.ReadInt();
+			for (int i = 0; i < size; i++)
+			{
+				screen.Show($"Please select desired type for ship {i + 1}:\n1.Submarine\n2.Destroyer\n3.Cruiser\n4.Battleship\n5.Carrier\n");
+				switch (keyboard.ReadInt()){
+					case 1: { fleet.Add((int)BoatType.Submarine); break; }
+					case 2: { fleet.Add((int)BoatType.Destroyer); break; }
+					case 3: { fleet.Add((int)BoatType.Cruiser); break; }
+					case 4: { fleet.Add((int)BoatType.Battleship); break; }
+					case 5: { fleet.Add((int)BoatType.Carrier); break; }
+				}
 			}
 		}
 		private void InitPlayers() {
@@ -40,11 +53,11 @@ namespace Codecool.Battleship
 					screen.Show("Do you wish to configure your ships manually(y/n)?");
 					if (keyboard.ReadString() != "y") InitRandomFleet(player[i],board.size);
 					else {
-						for(int j = 0; j < shipSize.Length; j++) {
+						for(int j = 0; j < fleet.Count; j++) {
 							for(; ; ) {
-								screen.Show($"Please enter desired location of ship {j + 1}. Length of ship is {shipSize[j]}.");
+								screen.Show($"Please enter desired location of ship {j + 1}. Length of ship is {fleet[j]}.");
 								Location place = RequestCoords();
-								Ship boat = RegisterShip(place, shipSize[j]);
+								Ship boat = RegisterShip(place, fleet[j]);
 								if (ValidateShip(player[i], boat)) { player[i].ships.Add(boat);break; }
 								screen.Show("Can't place a ship there in that orientation! Try again.");
 							}
@@ -60,12 +73,12 @@ namespace Codecool.Battleship
 		}
 		private void InitRandomFleet(Player player,int mapSize) {
 			Random random = new();
-			for (int j = 0; j < shipSize.Length; j++) {
+			for (int j = 0; j < fleet.Count; j++) {
 				for (; ; ) {
 					int x = random.Next(mapSize);
 					int y = random.Next(mapSize);
 					Location place = new(x, y);
-					Ship boat = RegisterShip(place, shipSize[j]);
+					Ship boat = RegisterShip(place, fleet[j]);
 					if (ValidateShip(player,boat)) { player.ships.Add(boat); break; }
 				}
 			}
@@ -74,7 +87,7 @@ namespace Codecool.Battleship
 		{
 			List<Location> fields = new();
 			foreach (Ship ship in player.ships) fields.AddRange(ship.GetShadowMap());
-			foreach (Location tile in boat.GetFieldMap()) if (!board.ValidLocation(tile) || fields.Contains(tile)) return false;
+			foreach (Location tile in boat.GetFieldMap()) if (!board.ValidLocation(tile) || board.LocationInList(tile,fields)) return false;
 			return true;
 		}
 		private Location RequestCoords() {
@@ -103,7 +116,8 @@ namespace Codecool.Battleship
 			player[who].IsAI = !player[who].IsAI;
 		}
 		public Battleship(Input cin,Display cout) {
-			screen = cout;keyboard = cin;
+			screen = cout;
+			keyboard = cin;
 		}
 		public void Info() {
 			string[] readText = File.ReadAllLines("Battleship.inf");
@@ -126,8 +140,7 @@ namespace Codecool.Battleship
 				case 1: { screen.Show("Missed. Go fish!"); break; }
 				case 2: { screen.Show("Auch... you hit!"); break; }
 				case 3: { screen.Show("Grrr.... You sunk one..."); break; }
-			}
-			
+			}	
 		}
 		public int Winner() {
 			if (player[0].ships.Count == 0) return WinMessage(1);

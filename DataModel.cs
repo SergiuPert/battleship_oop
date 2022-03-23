@@ -16,7 +16,7 @@ namespace Codecool.Battleship.DataModel {
         public override bool Equals(Object location)
         {
             Location location1 = (Location)location;
-			if ((location1.x == this.x) && (location1.y == this.y))
+			if ((location1.x == x) && (location1.y == y))
 				return true;
 			else 
 				return false;
@@ -27,7 +27,30 @@ namespace Codecool.Battleship.DataModel {
             return base.GetHashCode();
         }
 
-    }
+		public bool LocationInList(List<Location> locations)
+		{
+			foreach (Location target in locations)
+			{
+				if (target.x == x && target.y == y)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public Location GetListedLocation(List<Location> locations)
+		{
+			foreach (Location target in locations)
+			{
+				if (target.x == x && target.y == y)
+				{
+					return target;
+				}
+			}
+			return null;
+		}
+	}
 	public class Ship {
 		public Location location {get;private set;}
 		public int size {get;private set;}
@@ -42,132 +65,88 @@ namespace Codecool.Battleship.DataModel {
 		public List<Location> GetShadowMap() 
 		
 		{
-			List <Location> locationList = new List<Location>();
+			List <Location> locationList = new();
 			switch (direction)
 			{
 				case (int)ShipDirection.Up:
 					{
 						for (int i = 0; i < size; i++)
 						{
-							Location placeShip = new Location(location.x, location.y - i);
-							Location placeShip1 = new Location(location.x+1, location.y - i);
-							Location placeShip2 = new Location(location.x-1, location.y - i);
-							locationList.Add(placeShip);
-							locationList.Add(placeShip1);
-							locationList.Add(placeShip2);
-.					    }
-						Location placeShipDown = new Location(location.x, location.y+1);
-						Location placeShipUp = new Location(location.x, location.y - size);
-						locationList.Add(placeShipDown);
-						locationList.Add(placeShipUp);
+							locationList.Add(new Location(location.x, location.y - i));
+							locationList.Add(new Location(location.x+1, location.y - i));
+							locationList.Add(new Location(location.x - 1, location.y - i));
+						}
+						locationList.Add(new Location(location.x, location.y+1));
+						locationList.Add(new Location(location.x, location.y - size));
 						break;
 					}
 				case (int)ShipDirection.Down:
 					{
 						for (int i = 0; i < size; i++)
 						{
-							Location placeShip = new Location(location.x, location.y + i);
-							Location placeShip1 = new Location(location.x + 1, location.y + i);
-							Location placeShip2 = new Location(location.x - 1, location.y + i);
-							locationList.Add(placeShip);
-							locationList.Add(placeShip1);
-							locationList.Add(placeShip2);
-.					    }
-						Location placeShipDown = new Location(location.x, location.y - 1);
-						Location placeShipUp = new Location(location.x, location.y + size);
-						locationList.Add(placeShipDown);
-						locationList.Add(placeShipUp);
+							locationList.Add(new Location(location.x, location.y + i));
+							locationList.Add(new Location(location.x + 1, location.y + i));
+							locationList.Add(new Location(location.x - 1, location.y + i));
+					    }
+						locationList.Add(new Location(location.x, location.y - 1));
+						locationList.Add(new Location(location.x, location.y + size));
 						break;
 					}
 				case (int)ShipDirection.Left:
 					{
 						for (int i = 0; i < size; i++)
 						{
-							Location placeShip = new Location(location.x - i, location.y);
-							Location placeShip1 = new Location(location.x - i, location.y + 1);
-							Location placeShip2 = new Location(location.x - i, location.y - 1);
-							locationList.Add(placeShip);
-							locationList.Add(placeShip1);
-							locationList.Add(placeShip2);
-.					    }
-						Location placeShipLeft = new Location(location.x + 1, location.y);
-						Location placeShipRight = new Location(location.x - size, location.y);
-						locationList.Add(placeShipLeft);
-						locationList.Add(placeShipRight);
+							locationList.Add(new Location(location.x - i, location.y));
+							locationList.Add(new Location(location.x - i, location.y + 1));
+							locationList.Add(new Location(location.x - i, location.y - 1));
+					    }
+						locationList.Add(new Location(location.x + 1, location.y));
+						locationList.Add(new Location(location.x - size, location.y));
 						break;
 					}
 				case (int)ShipDirection.Right:
 					{
 						for (int i = 0; i < size; i++)
 						{
-							Location placeShip = new Location(location.x + i, location.y);
-							Location placeShip1 = new Location(location.x + i, location.y - 1);
-							Location placeShip2 = new Location(location.x + i, location.y + 1);
-							locationList.Add(placeShip);
-							locationList.Add(placeShip1);
-							locationList.Add(placeShip2);
-.					    }
-						Location placeShipLeft = new Location(location.x - 1, location.y);
-						Location placeShipRight = new Location(location.x + size, location.y);
-						locationList.Add(placeShipLeft);
-						locationList.Add(placeShipRight);
+							locationList.Add(new Location(location.x + i, location.y));
+							locationList.Add(new Location(location.x + i, location.y - 1));
+							locationList.Add(new Location(location.x + i, location.y + 1));
+					    }
+						locationList.Add(new Location(location.x - 1, location.y));
+						locationList.Add(new Location(location.x + size, location.y));
 						break;
 					}
-
 			}
-
 			return locationList;
 		}
 		public List<Location> GetFieldMap()
 		{ 
-			List<Location> locations = new List<Location>();
-
+			List<Location> locations = new();
 			switch(direction)
 			{
 				case (int)ShipDirection.Up:
 					{
-						for (int i = 0; i < size; i++)
-						{
-							Location placeShip = new Location(location.x, location.y - i);
-							locations.Add(placeShip);
-.					    }
+						for (int i = 0; i < size; i++) locations.Add(new Location(location.x, location.y - i));
 						break;
 					}
 				case (int)ShipDirection.Down:
 					{
-						for (int i = 0; i < size; i++)
-						{
-							Location placeShip = new Location(location.x, location.y + i);
-							locations.Add(placeShip);
-						}
+						for (int i = 0; i < size; i++) locations.Add(new Location(location.x, location.y + i));
 						break;
 					}
 				case (int)ShipDirection.Left:
 					{
-						for (int i = 0; i < size; i++)
-						{
-							Location placeShip = new Location(location.x - i, location.y);
-							locations.Add(placeShip);
-						}
+						for (int i = 0; i < size; i++) locations.Add(new Location(location.x - i, location.y));
 						break;
 					}
 				case (int)ShipDirection.Right:
 					{
-						for (int i = 0; i < size; i++)
-						{
-							Location placeShip = new Location(location.x + i, location.y);
-							locations.Add(placeShip);
-						}
+						for (int i = 0; i < size; i++) locations.Add(new Location(location.x + i, location.y));
 						break;
 					}
-					
 			}
 			return locations;
-
-
 		}
-
-		
 	}
 
     public enum ShipDirection
@@ -177,6 +156,7 @@ namespace Codecool.Battleship.DataModel {
         Down = 3,
         Left = 4,
     }
+
     public class Player {
 		public List<Ship> ships;
 		public List<Location> hits, misses, sunks;
@@ -189,50 +169,34 @@ namespace Codecool.Battleship.DataModel {
 		{
 			foreach(Ship ship in oponent.ships)
 			{
-				foreach (Location location in ship.GetFieldMap())
-					// fiecare locatie din shipul curent(iteratia respectiva)
+				List<Location> ShipSquares = ship.GetFieldMap();
+				foreach (Location location in ShipSquares) // fiecare locatie din shipul curent(iteratia respectiva)
 				{
 					if (location.Equals(where))
 					{ 
-					hits.Add(where);
+					hits.Add(location);
 					bool isSunk = true;
-						foreach (Location locationPlace in ship.GetFieldMap())
-							
-							// vorbim de acelasi ship de mai sus, luam lungimea shipului, adica patratele shipului
+						foreach (Location locationPlace in ShipSquares) // vorbim de acelasi ship de mai sus, luam patratele shipului
 						{
-							foreach (Location hit in hits)
-							{
-								if (!locationPlace.Equals(hit))
-								{ 
-									isSunk = false;
-									break;
-								}
-							}
+							if (!locationPlace.LocationInList(hits)) isSunk = false;
 						}
 						if (isSunk)
 						{
-							foreach (Location locationPlace1 in ship.GetFieldMap())
-							{
-								hits.Remove(locationPlace1);
-								sunks.Add(locationPlace1);
-							}
+							foreach (Location locationPlace1 in ShipSquares) hits.Remove(locationPlace1.GetListedLocation(hits));
+							sunks.AddRange(ShipSquares);
 							return 3;
-
 						}
-						else
-							return 2;
+						else return 2;
 					}
-				
 				}
-
 			}
 			misses.Add(where);
 			return 1;
 		}
 		public Location PickHit(int maxSize) 
 		{ 
-			Random random = new Random(maxSize);
-			Location location = new Location(random.Next(), random.Next());
+			Random random = new(maxSize);
+			Location location = new(random.Next(), random.Next());
 			return	location;
 		}
 	}

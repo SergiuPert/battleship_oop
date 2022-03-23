@@ -57,31 +57,20 @@ namespace Codecool.Battleship.FormatServer
 				for (int col = 0; col < map.GetLength(1); col++)
                 {
 					location = new Location(row, col);
-					if (LocationInList(location, player.hits))
+					if (location.LocationInList(player.hits))
                     {
 						map[row, col].status = "♨";
                     }
-					else if (LocationInList(location, player.misses))
+					else if (location.LocationInList(player.misses))
 					{
 						map[row, col].status = "☀";
 					}
-					else if (LocationInList(location, player.sunks))
+					else if (location.LocationInList(player.sunks))
 					{
 						map[row, col].status = "☠";
 					}
 				}
 		}
-		public bool LocationInList(Location location, List<Location> locations)
-        {
-			foreach(Location target in locations)
-            {
-				if (target.x == location.x && target.y == location.y)
-                {
-					return true;
-                }
-            }
-			return false;
-        }
 		public override string ToString() //print board
 		{
 			return "a";

@@ -87,7 +87,7 @@ namespace Codecool.Battleship
 		{
 			List<Location> fields = new();
 			foreach (Ship ship in player.ships) fields.AddRange(ship.GetShadowMap());
-			foreach (Location tile in boat.GetFieldMap()) if (!board.ValidLocation(tile) || board.LocationInList(tile,fields)) return false;
+			foreach (Location tile in boat.GetFieldMap()) if (!board.ValidLocation(tile) || tile.LocationInList(fields)) return false;
 			return true;
 		}
 		private Location RequestCoords() {

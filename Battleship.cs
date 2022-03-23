@@ -73,8 +73,8 @@ namespace Codecool.Battleship
 		private bool ValidateShip(Player player,Ship boat)
 		{
 			List<Location> fields = new();
-			foreach (Ship ship in player.ships) fields.AddRange(ship.ShadowMap();
-			foreach (Location tile in boat.FieldMap()) if (!board.ValidLocation(tile) || fields.Contains(tile)) return false;
+			foreach (Ship ship in player.ships) fields.AddRange(ship.GetShadowMap());
+			foreach (Location tile in boat.GetFieldMap()) if (!board.ValidLocation(tile) || fields.Contains(tile)) return false;
 			return true;
 		}
 		private Location RequestCoords() {
@@ -95,7 +95,7 @@ namespace Codecool.Battleship
 			return new Ship(where, size, dir);
 		}
 		private int WinMessage(int who) {
-			screen.Show($"Congratulation {player[i].Name}. You won.");
+			screen.Show($"Congratulation {player[who].Name}. You won.");
 			return who;
 		}
 		private void ToggleAiPlayer(int who) {
@@ -130,8 +130,8 @@ namespace Codecool.Battleship
 			
 		}
 		public int Winner() {
-			if (player[0].ship.Count == 0) return WinMessage(1);
-			if (player[1].ship.Count == 0) return WinMessage(0);
+			if (player[0].ships.Count == 0) return WinMessage(1);
+			if (player[1].ships.Count == 0) return WinMessage(0);
 			return 0;
 		}
 	}

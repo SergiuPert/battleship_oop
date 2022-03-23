@@ -74,7 +74,7 @@ namespace Codecool.Battleship
 		{
 			List<Location> fields = new();
 			foreach (Ship ship in player.ships) fields.AddRange(ship.GetShadowMap());
-			foreach (Location tile in boat.GetFieldMap()) if (!board.ValidLocation(tile) || fields.Contains(tile)) return false;
+			foreach (Location tile in boat.GetFieldMap()) if (!board.ValidLocation(tile) || board.LocationInList(tile,fields)) return false;
 			return true;
 		}
 		private Location RequestCoords() {
@@ -103,7 +103,8 @@ namespace Codecool.Battleship
 			player[who].IsAI = !player[who].IsAI;
 		}
 		public Battleship(Input cin,Display cout) {
-			screen = cout;keyboard = cin;
+			screen = cout;
+			keyboard = cin;
 		}
 		public void Info() {
 			string[] readText = File.ReadAllLines("Battleship.inf");
@@ -126,8 +127,7 @@ namespace Codecool.Battleship
 				case 1: { screen.Show("Missed. Go fish!"); break; }
 				case 2: { screen.Show("Auch... you hit!"); break; }
 				case 3: { screen.Show("Grrr.... You sunk one..."); break; }
-			}
-			
+			}	
 		}
 		public int Winner() {
 			if (player[0].ships.Count == 0) return WinMessage(1);

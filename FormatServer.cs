@@ -19,7 +19,7 @@ namespace Codecool.Battleship.FormatServer
 		private Square[,] map;
 		public Board(int Size) 
 		{
-			size = size;
+			size = Size;
 			Square[,] map = new Square[size, size];
 			for (int row = 0; row < map.GetLength(0); row++)
             {

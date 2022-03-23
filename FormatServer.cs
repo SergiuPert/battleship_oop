@@ -8,7 +8,9 @@ namespace Codecool.Battleship.FormatServer
 		public Square() {
 			_status = "*";
 		}
-		public override string ToString() {
+		public override string ToString() 
+		{
+			return _status;
 		}
 	}
 	public class Board {
@@ -43,7 +45,7 @@ namespace Codecool.Battleship.FormatServer
             {
 				foreach (Location location in ship.FieldMap())
                 {
-					map[location.Item1, location.Item2]._status = "B";
+					map[location.x, location.y]._status = "B";
                 }
             } 
 		}
@@ -69,23 +71,9 @@ namespace Codecool.Battleship.FormatServer
 				}
 
 		}
-		public override string ToString() {
-		}
-		public bool ValidLocation(Location location) // checks if the location exists
-        {
-			if (location.Item1 >=0 && location.Item1 < _size && location.Item2 >= 0 && location.Item2 < _size)
-            {
-				return true;
-            }
-			else
-            {
-				return false;
-            }
-        }
-	}
-	public class Display {
-		public void Show(string msg) //print board
+		public override string ToString() //print board
 		{
+			string msg = "";
 			string tableStart = "   ";
 			for (int row = 0; row < _size; row++)
 			{
@@ -98,48 +86,68 @@ namespace Codecool.Battleship.FormatServer
 					tableStart += $" {row + 1} ";
 				}
 			}
-			Console.WriteLine(tableStart);
+			//Console.WriteLine(tableStart);
+			msg += tableStart + "\n";
 			string breakLine = "  -" + new string('-', 4 * _size);
-			Console.WriteLine(breakLine);
-
+			//Console.WriteLine(breakLine);
+			msg += breakLine + "\n";
 			for (int row = 0; row < _size; row++)
 			{
 				string rowStart = $"{(char)('A' + row)} |";
-				Console.Write(rowStart);
+				//Console.Write(rowStart);
+				msg += rowStart;
 				for (int col = 0; col < _size; col++)
 				{
-					Console.Write(" ");
-					Console.Write(board[row, col]._status);
-					Console.Write(" |");
+					//Console.Write(" ");
+					msg += " ";
+					//Console.Write(board[row, col]._status);
+					msg += map[row, col]._status;
+					//Console.Write(" |");
+					msg += " |";
 				}
-				Console.WriteLine();
-				Console.WriteLine(breakLine);
+				//Console.WriteLine();
+				msg += "\n";
+				//Console.WriteLine(breakLine);
+				msg += breakLine + "\n";
 			}
+			return msg;
 		}
+		public bool ValidLocation(Location location) // checks if the location exists
+        {
+			if (location.x >=0 && location.x < _size && location.y >= 0 && location.y < _size)
+            {
+				return true;
+            }
+			else
+            {
+				return false;
+            }
+        }
+	}
+	public class Display {
+		public void Show(string msg) 
+		{
+            Console.WriteLine(msg);
+		}
+		public void Clear()
+        {
+			Console.Clear();
+        }
 	}
 	public class Input {
 		public Location ReadLocation() //get the coordinates from the player ex A3 
 		{
-			int row;
-			int col;
+			int row = 0;
+			int col = 0;
 			bool flag = true;
 			while (flag)
 			{
+                Console.WriteLine("Give us your coordinates: ");
 				string input = Console.ReadLine();
 				row = Convert.ToInt32(input[0].ToString().ToUpper()) - 'A';
-				if (row < 0 || row >= _size)
-                {
-                    Console.WriteLine("Invalid coordinates!");
-					continue;
-				}
 				if (!int.TryParse(input.Substring(1), out col))
 				{
-					Console.WriteLine("Invalid coordinates!");
-					continue;
-				}
-				if (col < 0 || col >= _size) continue;
-				{
-					Console.WriteLine("Invalid coordinates!");
+					Console.WriteLine("Invalid format!");
 					continue;
 				}
 				flag = false;
@@ -156,7 +164,8 @@ namespace Codecool.Battleship.FormatServer
             }
 			else
             {
-				return -1;
+                Console.WriteLine("Incorrrect format! We need an integer.");
+				return ReadInt();
             }
 		}
 		public string ReadString() 

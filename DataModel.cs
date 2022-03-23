@@ -180,11 +180,11 @@ namespace Codecool.Battleship.DataModel {
 		public List<Ship> ships;
 		public List<Location> hits, misses, sunks;
 		public bool IsAI;
-		public string name;
+		public string Name;
 		public Player(string who) { 
-			name = who;
+			Name = who;
 		}
-		public void CheckIfHit(Location where, Player oponent) { 
+		public int CheckIfHit(Location where, Player oponent) { 
 		}
 		public Location PickHit(int maxSize) { 
 		}

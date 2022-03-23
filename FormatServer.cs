@@ -5,22 +5,22 @@ using System.Collections.Generic;
 namespace Codecool.Battleship.FormatServer
 {
 	public class Square {
-		public string _status;
+		public string status;
 		public Square() {
-			_status = "*";
+			status = "*";
 		}
 		public override string ToString() 
 		{
-			return _status;
+			return status;
 		}
 	}
 	public class Board {
-		public int _size;
+		public int size { get; set; }
 		private Square[,] map;
-		public Board(int size) 
+		public Board(int Size) 
 		{
-			_size = size;
-			Square[,] map = new Square[_size, _size];
+			size = size;
+			Square[,] map = new Square[size, size];
 			for (int row = 0; row < map.GetLength(0); row++)
             {
 				for (int col = 0; col < map.GetLength(1); col++)
@@ -36,7 +36,7 @@ namespace Codecool.Battleship.FormatServer
 			{
 				for (int col = 0; col < map.GetLength(1); col++)
 				{
-					map[row, col]._status = "*";
+					map[row, col].status = "*";
 				}
 			}
 		}
@@ -46,7 +46,7 @@ namespace Codecool.Battleship.FormatServer
             {
 				foreach (Location location in ship.GetFieldMap())
                 {
-					map[location.x, location.y]._status = "B";
+					map[location.x, location.y].status = "B";
                 }
             } 
 		}
@@ -59,15 +59,15 @@ namespace Codecool.Battleship.FormatServer
 					location = new Location(row, col);
 					if (LocationInList(location, player.hits))
                     {
-						map[row, col]._status = "H";
+						map[row, col].status = "H";
                     }
 					else if (LocationInList(location, player.misses))
 					{
-						map[row, col]._status = "M";
+						map[row, col].status = "M";
 					}
 					else if (LocationInList(location, player.sunks))
 					{
-						map[row, col]._status = "S";
+						map[row, col].status = "S";
 					}
 				}
 		}
@@ -86,7 +86,7 @@ namespace Codecool.Battleship.FormatServer
 		{
 			string msg = "";
 			string tableStart = "   ";
-			for (int row = 0; row < _size; row++)
+			for (int row = 0; row < size; row++)
 			{
 				if (row < 9)
 				{
@@ -99,20 +99,20 @@ namespace Codecool.Battleship.FormatServer
 			}
 			//Console.WriteLine(tableStart);
 			msg += tableStart + "\n";
-			string breakLine = "  -" + new string('-', 4 * _size);
+			string breakLine = "  -" + new string('-', 4 * size);
 			//Console.WriteLine(breakLine);
 			msg += breakLine + "\n";
-			for (int row = 0; row < _size; row++)
+			for (int row = 0; row < size; row++)
 			{
 				string rowStart = $"{(char)('A' + row)} |";
 				//Console.Write(rowStart);
 				msg += rowStart;
-				for (int col = 0; col < _size; col++)
+				for (int col = 0; col < size; col++)
 				{
 					//Console.Write(" ");
 					msg += " ";
 					//Console.Write(board[row, col]._status);
-					msg += map[row, col]._status;
+					msg += map[row, col].status;
 					//Console.Write(" |");
 					msg += " |";
 				}
@@ -125,7 +125,7 @@ namespace Codecool.Battleship.FormatServer
 		}
 		public bool ValidLocation(Location location) // checks if the location exists
         {
-			if (location.x >=0 && location.x < _size && location.y >= 0 && location.y < _size)
+			if (location.x >=0 && location.x < size && location.y >= 0 && location.y < size)
             {
 				return true;
             }

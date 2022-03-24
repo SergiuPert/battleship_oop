@@ -12,7 +12,7 @@ namespace Codecool.Battleship
 			for (; ; ) {
 				game.Init();
 				while (game.Winner() == 0) game.Play();
-				screen.Show("New game?");
+				screen.Show("New game? Type 'yes'!");
 				if (keyboard.ReadString().ToLower() != "yes") break;
 			}
 		}

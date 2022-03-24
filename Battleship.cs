@@ -58,6 +58,9 @@ namespace Codecool.Battleship
 						Screen.Show("Can't place a ship there in that orientation! Try again.");
 					}
 				}
+				board.PlaceShips(player[i]);
+				Screen.Clear();
+				Screen.PrintBoard(board);
 				Screen.Show($"Fleet configured for {player[i].Name}. Hit enter to continue.");
 				Keyboard.ReadString();
 			}
@@ -152,14 +155,19 @@ namespace Codecool.Battleship
 			Screen.Show($"{player[currentPlayer].Name} pick your move.");
 			Location guess = Keyboard.ReadLocation();
 			int move = 0;
-			Screen.Clear();
-			if(board.ValidLocation(guess)) move=player[currentPlayer].CheckIfHit(guess,player[(currentPlayer+1)%2]);
+            Screen.Clear();
+            if (board.ValidLocation(guess)) move=player[currentPlayer].CheckIfHit(guess,player[(currentPlayer+1)%2]);
 			switch (move) {
 				case 0: { Screen.Show("Invalid move. Try again.");break; }
 				case 1: { Screen.Show("Missed. Go fish!"); break; }
 				case 2: { Screen.Show("Ouch... you hit!"); break; }
 				case 3: { Screen.Show("Grrr.... You sunk one..."); break; }
 			}
+			board.Reset();
+			board.PlaceMoves(player[currentPlayer]);
+			Screen.PrintBoard(board);
+            Screen.Show("Press any key to pass the turn");
+			Keyboard.ReadString();
 			currentPlayer = (currentPlayer + 1) % 2;
 		}
 		public int Winner() {

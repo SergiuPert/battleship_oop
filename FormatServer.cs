@@ -94,7 +94,6 @@ namespace Codecool.Battleship.FormatServer
 		}
 		public void PrintBoard(Board board)
         {
-			//string msg = "";
 			string tableStart = "  ";
 			for (int row = 0; row < board.size; row++)
 			{
@@ -108,19 +107,13 @@ namespace Codecool.Battleship.FormatServer
 				}
 			}
             Console.WriteLine(tableStart);
-            //msg += tableStart + "\n";
-            //string breakLine = "  -" + new string('-', 4 * size);
-            //Console.WriteLine(breakLine);
-            //msg += breakLine + "\n";
             for (int row = 0; row < board.size; row++)
 			{
 				string rowStart = $"{(char)('A' + row)} ";
                 Console.Write(rowStart);
-                //msg += rowStart;
 				for (int col = 0; col < board.size; col++)
 				{
                     Console.Write(" ");
-					//msg += " ";
 					switch (board.map[row, col].status)
 					{
 						case "☀":
@@ -141,14 +134,10 @@ namespace Codecool.Battleship.FormatServer
 					}
 					Console.Write(board.map[row, col].status);
 					Console.ForegroundColor = ConsoleColor.White;
-					//msg += board[row, col].status;
 					Console.Write(" ");
-                    //msg += " |";
 				}
                 Console.WriteLine();
-                //msg += "\n";
-                //Console.WriteLine(breakLine);
-                //msg += breakLine + "\n";
+
             }
 		}
 		public void Clear()

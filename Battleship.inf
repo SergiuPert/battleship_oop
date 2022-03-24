@@ -4,7 +4,7 @@ This is a two player strategy game.
 Either player may be human or AI (just a very basic AI, though).
 Each player has a fleet of ships of configurable sizes placed on his game board.
 The ships can be placed randomly by the computer or manually by the player, but never next to eachother.
-Each player needs to guess the locations of the other player\'s ships.
+Each player needs to guess the locations of the other player's ships.
 The player to do this first wins the game.
 
 So, pick a side and start shooting!

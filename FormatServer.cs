@@ -17,16 +17,14 @@ namespace Codecool.Battleship.FormatServer
 	public class Board {
 		public int size { get; set; }
 		public Square[,] map { get; set; }
-		public Board(int Size) 
+		public Board(int Size)
 		{
 			size = Size;
 			map = new Square[size, size];
-			Console.WriteLine("should have map init here");
 			for (int row = 0; row < map.GetLength(0); row++)
             {
 				for (int col = 0; col < map.GetLength(1); col++)
 				{
-					Console.WriteLine("should init squares here");
 					map[row, col] = new Square();
                 }
             }
@@ -94,19 +92,19 @@ namespace Codecool.Battleship.FormatServer
 		{
             Console.WriteLine(msg);
 		}
-		public void PringBoard(Board board)
+		public void PrintBoard(Board board)
         {
 			//string msg = "";
-			string tableStart = "   ";
+			string tableStart = "  ";
 			for (int row = 0; row < board.size; row++)
 			{
 				if (row < 9)
 				{
-					tableStart += $" {row + 1}  ";
+					tableStart += $" {row + 1} ";
 				}
 				else
 				{
-					tableStart += $" {row + 1} ";
+					tableStart += $" {row + 1}";
 				}
 			}
             Console.WriteLine(tableStart);
@@ -116,7 +114,7 @@ namespace Codecool.Battleship.FormatServer
             //msg += breakLine + "\n";
             for (int row = 0; row < board.size; row++)
 			{
-				string rowStart = $"{(char)('A' + row)} |";
+				string rowStart = $"{(char)('A' + row)} ";
                 Console.Write(rowStart);
                 //msg += rowStart;
 				for (int col = 0; col < board.size; col++)
@@ -168,6 +166,7 @@ namespace Codecool.Battleship.FormatServer
 			{
                 Console.WriteLine("Give us your coordinates: ");
 				string input = Console.ReadLine();
+				if (input == "") continue;
 				row = (int)(input[0].ToString().ToUpper())[0] - 'A';
 				if (!int.TryParse(input.Substring(1), out col))
 				{
@@ -176,7 +175,7 @@ namespace Codecool.Battleship.FormatServer
 				}
 				flag = false;
 			}
-			Location location = new Location(row, col);
+			Location location = new Location(row, col-1);
 			return location;
 		}
 		public int ReadInt() 

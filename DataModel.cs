@@ -184,7 +184,7 @@ namespace Codecool.Battleship.DataModel {
 						{
 							foreach (Location locationPlace1 in ShipSquares) hits.Remove(locationPlace1.GetListedLocation(hits));
 							sunks.AddRange(ShipSquares);
-							oponent.ships.Remove(ship)
+							oponent.ships.Remove(ship);
 							return 3;
 						}
 						else return 2;
@@ -200,7 +200,7 @@ namespace Codecool.Battleship.DataModel {
 			while (true)
 			{
 				Location location = new(random.Next(), random.Next());
-				if (!location.LocationInList(hits)&&!location.LocationInList(misses)&&!location.LocationInList(sunks) return location;
+				if (!location.LocationInList(hits)&&!location.LocationInList(misses)&&!location.LocationInList(sunks)) return location;
 			}
 		}
 	}

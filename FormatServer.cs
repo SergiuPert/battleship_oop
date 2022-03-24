@@ -7,7 +7,7 @@ namespace Codecool.Battleship.FormatServer
 	public class Square {
 		public string status;
 		public Square() {
-			status = "*";
+			status = "≋";
 		}
 		public override string ToString() 
 		{

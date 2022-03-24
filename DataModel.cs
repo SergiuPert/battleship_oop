@@ -164,6 +164,11 @@ namespace Codecool.Battleship.DataModel {
 		public string Name;
 		public Player(string who) { 
 			Name = who;
+			IsAI = false;
+			ships = new();
+			hits = new();
+			misses = new();
+			sunks = new();
 		}
 		public int CheckIfHit(Location where, Player oponent) 
 		{

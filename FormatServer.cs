@@ -20,7 +20,7 @@ namespace Codecool.Battleship.FormatServer
 		public Board(int Size) 
 		{
 			size = Size;
-			Square[,] map = new Square[size, size];
+			map = new Square[size, size];
 			Console.WriteLine("should have map init here");
 			for (int row = 0; row < map.GetLength(0); row++)
             {

@@ -88,7 +88,7 @@ namespace Codecool.Battleship
 					int x = random.Next(mapSize);
 					int y = random.Next(mapSize);
 					Location place = new(x, y);
-					Ship boat = RegisterShip(place, Fleet[j]);
+					Ship boat = AutoRegisterShip(place, Fleet[j]);
 					if (ValidateShip(player,boat)) { player.ships.Add(boat); break; }
 				}
 			}
@@ -115,6 +115,12 @@ namespace Codecool.Battleship
 				if (dir > 0 || dir < 5) break;
 				Screen.Show("Please pick an option between 1 and 4!");
 			}
+			return new Ship(where, size, dir);
+		}
+		private Ship AutoRegisterShip(Location where, int size)
+		{
+			Random random = new Random(4);
+			int dir = random.Next() + 1;
 			return new Ship(where, size, dir);
 		}
 		private int WinMessage(int who) {

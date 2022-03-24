@@ -72,48 +72,48 @@ namespace Codecool.Battleship.DataModel {
 					{
 						for (int i = 0; i < size; i++)
 						{
-							locationList.Add(new Location(location.x, location.y - i));
-							locationList.Add(new Location(location.x+1, location.y - i));
-							locationList.Add(new Location(location.x - 1, location.y - i));
+							locationList.Add(new Location(location.x - i, location.y));
+							locationList.Add(new Location(location.x - i, location.y+1));
+							locationList.Add(new Location(location.x - i, location.y - 1));
 						}
-						locationList.Add(new Location(location.x, location.y+1));
-						locationList.Add(new Location(location.x, location.y - size));
+						locationList.Add(new Location(location.x+1, location.y));
+						locationList.Add(new Location(location.x - size, location.y));
 						break;
 					}
 				case (int)ShipDirection.Down:
 					{
 						for (int i = 0; i < size; i++)
 						{
-							locationList.Add(new Location(location.x, location.y + i));
-							locationList.Add(new Location(location.x + 1, location.y + i));
-							locationList.Add(new Location(location.x - 1, location.y + i));
+							locationList.Add(new Location(location.x + i, location.y));
+							locationList.Add(new Location(location.x + i, location.y + 1));
+							locationList.Add(new Location(location.x + i, location.y - 1));
 					    }
-						locationList.Add(new Location(location.x, location.y - 1));
-						locationList.Add(new Location(location.x, location.y + size));
+						locationList.Add(new Location(location.x - 1, location.y));
+						locationList.Add(new Location(location.x + size, location.y));
 						break;
 					}
 				case (int)ShipDirection.Left:
 					{
 						for (int i = 0; i < size; i++)
 						{
-							locationList.Add(new Location(location.x - i, location.y));
-							locationList.Add(new Location(location.x - i, location.y + 1));
-							locationList.Add(new Location(location.x - i, location.y - 1));
+							locationList.Add(new Location(location.x, location.y - i));
+							locationList.Add(new Location(location.x + 1, location.y - i));
+							locationList.Add(new Location(location.x - 1, location.y - i));
 					    }
-						locationList.Add(new Location(location.x + 1, location.y));
-						locationList.Add(new Location(location.x - size, location.y));
+						locationList.Add(new Location(location.x, location.y + 1));
+						locationList.Add(new Location(location.x, location.y - size));
 						break;
 					}
 				case (int)ShipDirection.Right:
 					{
 						for (int i = 0; i < size; i++)
 						{
-							locationList.Add(new Location(location.x + i, location.y));
-							locationList.Add(new Location(location.x + i, location.y - 1));
-							locationList.Add(new Location(location.x + i, location.y + 1));
+							locationList.Add(new Location(location.x, location.y+i));
+							locationList.Add(new Location(location.x - 1, location.y+i));
+							locationList.Add(new Location(location.x + 1, location.y+i));
 					    }
-						locationList.Add(new Location(location.x - 1, location.y));
-						locationList.Add(new Location(location.x + size, location.y));
+						locationList.Add(new Location(location.x, location.y - 1));
+						locationList.Add(new Location(location.x, location.y + size));
 						break;
 					}
 			}
@@ -126,22 +126,22 @@ namespace Codecool.Battleship.DataModel {
 			{
 				case (int)ShipDirection.Up:
 					{
-						for (int i = 0; i < size; i++) locations.Add(new Location(location.x, location.y - i));
+						for (int i = 0; i < size; i++) locations.Add(new Location(location.x - i, location.y));
 						break;
 					}
 				case (int)ShipDirection.Down:
 					{
-						for (int i = 0; i < size; i++) locations.Add(new Location(location.x, location.y + i));
+						for (int i = 0; i < size; i++) locations.Add(new Location(location.x + i, location.y));
 						break;
 					}
 				case (int)ShipDirection.Left:
 					{
-						for (int i = 0; i < size; i++) locations.Add(new Location(location.x - i, location.y));
+						for (int i = 0; i < size; i++) locations.Add(new Location(location.x, location.y - i));
 						break;
 					}
 				case (int)ShipDirection.Right:
 					{
-						for (int i = 0; i < size; i++) locations.Add(new Location(location.x + i, location.y));
+						for (int i = 0; i < size; i++) locations.Add(new Location(location.x, location.y + i));
 						break;
 					}
 			}

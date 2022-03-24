@@ -37,6 +37,7 @@ namespace Codecool.Battleship
 		}
 		private void InitPlayer(int i)
 		{
+			Screen.Clear();
 			Screen.Show($"Player {i + 1}, please state your name.");
 			player[i] = new Player(Keyboard.ReadString());
 			Screen.Show("Do you wish to configure your ships manually(y/n)?");
@@ -45,6 +46,9 @@ namespace Codecool.Battleship
 			{
 				for (int j = 0; j < Fleet.Count; j++)
 				{
+					board.PlaceShips(player[i]);
+					Screen.Clear();
+					Screen.PrintBoard(board);
 					for (; ; )
 					{
 						Screen.Show($"Please enter desired location of ship {j + 1}. Length of ship is {Fleet[j]}.");
@@ -53,9 +57,6 @@ namespace Codecool.Battleship
 						if (ValidateShip(player[i], boat)) { player[i].ships.Add(boat); break; }
 						Screen.Show("Can't place a ship there in that orientation! Try again.");
 					}
-					board.PlaceShips(player[i]);
-					Screen.Clear();
-					Screen.Show(board.ToString());
 				}
 				Screen.Show($"Fleet configured for {player[i].Name}. Hit enter to continue.");
 				Keyboard.ReadString();
@@ -72,6 +73,7 @@ namespace Codecool.Battleship
 					InitRandomFleet(player[0], board.size);
 				}
 				else InitPlayer(0);
+			board.Reset();
 				if (mode % 2 == 0) {
 					player[1] = new Player($"AiPlayer{1}");
 					player[1].IsAI = !player[1].IsAI;
@@ -117,11 +119,7 @@ namespace Codecool.Battleship
 		}
 		private int WinMessage(int who) {
 			Screen.Show($"Congratulation {player[who].Name}. You won.");
-			return who;
-		}
-		private void ToggleAiPlayer(int who) {
-			if (who < 0 || who > 1) return;
-			player[who].IsAI = !player[who].IsAI;
+			return 1;
 		}
 		public Battleship(Input cin,Display cout) {
 			Screen = cout;
@@ -134,23 +132,29 @@ namespace Codecool.Battleship
 		}
 		public void Init() {
 			Screen.Show("Pick board size:");
-			board = new Board(Keyboard.ReadInt());
+			int choice = Keyboard.ReadInt();
+			board = new Board(choice);
 			DefineFleet();
 			InitPlayers();
 			currentPlayer = 0;
 		}
 		public void Play() {
-			Screen.Show(board.ToString());
+			Screen.Clear();
+			board.Reset();
+			board.PlaceMoves(player[currentPlayer]);
+			Screen.PrintBoard(board);
 			Screen.Show($"{player[currentPlayer].Name} pick your move.");
 			Location guess = Keyboard.ReadLocation();
 			int move = 0;
+			Screen.Clear();
 			if(board.ValidLocation(guess)) move=player[currentPlayer].CheckIfHit(guess,player[(currentPlayer+1)%2]);
 			switch (move) {
 				case 0: { Screen.Show("Invalid move. Try again.");break; }
 				case 1: { Screen.Show("Missed. Go fish!"); break; }
 				case 2: { Screen.Show("Ouch... you hit!"); break; }
 				case 3: { Screen.Show("Grrr.... You sunk one..."); break; }
-			}	
+			}
+			currentPlayer = (currentPlayer + 1) % 2;
 		}
 		public int Winner() {
 			if (player[0].ships.Count == 0) return WinMessage(1);

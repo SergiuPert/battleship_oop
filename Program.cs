@@ -1,4 +1,5 @@
-﻿using Codecool.Battleship.FormatServer;
+﻿using System;
+using Codecool.Battleship.FormatServer;
 
 namespace Codecool.Battleship
 {

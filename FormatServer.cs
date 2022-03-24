@@ -7,7 +7,7 @@ namespace Codecool.Battleship.FormatServer
 	public class Square {
 		public string status;
 		public Square() {
-			status = "≋";
+			status = "\u224B";
 		}
 		public override string ToString() 
 		{
@@ -36,7 +36,7 @@ namespace Codecool.Battleship.FormatServer
 			{
 				for (int col = 0; col < map.GetLength(1); col++)
 				{
-					map[row, col].status = "≋";
+					map[row, col].status = "\u224B";
 				}
 			}
 		}
@@ -88,6 +88,11 @@ namespace Codecool.Battleship.FormatServer
         }
 	}
 	public class Display {
+		public Display()
+		{
+			Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+		}
 		public void Show(string msg) 
 		{
             Console.WriteLine(msg);
@@ -125,16 +130,16 @@ namespace Codecool.Battleship.FormatServer
 						case "♨":
 							Console.ForegroundColor = ConsoleColor.Red;
 							break;
-						case "≋":
+						case "\u224B":
 							Console.ForegroundColor = ConsoleColor.Blue;
 							break;
 						default:
 							Console.ForegroundColor = ConsoleColor.White;
 							break;
 					}
-					Console.Write(board.map[row, col].status);
+					Console.Write($"{board.map[row, col].status} ");
 					Console.ForegroundColor = ConsoleColor.White;
-					Console.Write(" ");
+					Console.Write("");
 				}
                 Console.WriteLine();
 

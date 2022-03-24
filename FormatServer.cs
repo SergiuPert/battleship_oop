@@ -16,15 +16,17 @@ namespace Codecool.Battleship.FormatServer
 	}
 	public class Board {
 		public int size { get; set; }
-		public Square[,] map;
+		public Square[,] map { get; set; }
 		public Board(int Size) 
 		{
 			size = Size;
 			Square[,] map = new Square[size, size];
+			Console.WriteLine("should have map init here");
 			for (int row = 0; row < map.GetLength(0); row++)
             {
 				for (int col = 0; col < map.GetLength(1); col++)
 				{
+					Console.WriteLine("should init squares here");
 					map[row, col] = new Square();
                 }
             }
@@ -166,7 +168,7 @@ namespace Codecool.Battleship.FormatServer
 			{
                 Console.WriteLine("Give us your coordinates: ");
 				string input = Console.ReadLine();
-				row = Convert.ToInt32(input[0].ToString().ToUpper()) - 'A';
+				row = (int)(input[0].ToString().ToUpper())[0] - 'A';
 				if (!int.TryParse(input.Substring(1), out col))
 				{
 					Console.WriteLine("Invalid format!");

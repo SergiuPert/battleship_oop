@@ -35,41 +35,49 @@ namespace Codecool.Battleship
 				}
 			}
 		}
+		private void InitPlayer(int i)
+		{
+			Screen.Show($"Player {i + 1}, please state your name.");
+			player[i] = new Player(Keyboard.ReadString());
+			Screen.Show("Do you wish to configure your ships manually(y/n)?");
+			if (Keyboard.ReadString() != "y") InitRandomFleet(player[i], board.size);
+			else
+			{
+				for (int j = 0; j < Fleet.Count; j++)
+				{
+					for (; ; )
+					{
+						Screen.Show($"Please enter desired location of ship {j + 1}. Length of ship is {Fleet[j]}.");
+						Location place = RequestCoords();
+						Ship boat = RegisterShip(place, Fleet[j]);
+						if (ValidateShip(player[i], boat)) { player[i].ships.Add(boat); break; }
+						Screen.Show("Can't place a ship there in that orientation! Try again.");
+					}
+					board.PlaceShips(player[i]);
+					Screen.Clear();
+					Screen.Show(board.ToString());
+				}
+				Screen.Show($"Fleet configured for {player[i].Name}. Hit enter to continue.");
+				Keyboard.ReadString();
+			}
+		}
 		private void InitPlayers() {
 			player = new Player[2];
-			Screen.Show("Please entered desired game mode:\n1.PvP\n2.PvE\n3.EvP\n4EvE");
+			Screen.Show("Please entered desired game mode:\n1.PvP\n2.PvE\n3.EvP\n4.EvE");
 			int mode = Keyboard.ReadInt();
-			if (mode % 2 == 0) ToggleAiPlayer(1);
-			if (mode > 2) ToggleAiPlayer(0);
-			for(int i = 0; i < 2; i++)
-			{
-				if (player[i].IsAI) {
-					player[i] = new Player($"AiPlayer{i}");
-					InitRandomFleet(player[i],board.size);
+				if (mode > 2)
+				{
+					player[0] = new Player($"AiPlayer{0}");
+					player[0].IsAI = !player[0].IsAI;
+					InitRandomFleet(player[0], board.size);
 				}
-				else {
-					Screen.Show($"Player {i + 1}, please state your name.");
-					player[i] = new Player(Keyboard.ReadString());
-					Screen.Show("Do you wish to configure your ships manually(y/n)?");
-					if (Keyboard.ReadString() != "y") InitRandomFleet(player[i],board.size);
-					else {
-						for(int j = 0; j < Fleet.Count; j++) {
-							for(; ; ) {
-								Screen.Show($"Please enter desired location of ship {j + 1}. Length of ship is {Fleet[j]}.");
-								Location place = RequestCoords();
-								Ship boat = RegisterShip(place, Fleet[j]);
-								if (ValidateShip(player[i], boat)) { player[i].ships.Add(boat);break; }
-								Screen.Show("Can't place a ship there in that orientation! Try again.");
-							}
-							board.PlaceShips(player[i]);
-							Screen.Clear();
-							Screen.Show(board.ToString());
-						}
-						Screen.Show($"Fleet configured for {player[i].Name}. Hit enter to continue.");
-						Keyboard.ReadString();
-					}
+				else InitPlayer(0);
+				if (mode % 2 == 0) {
+					player[1] = new Player($"AiPlayer{1}");
+					player[1].IsAI = !player[1].IsAI;
+					InitRandomFleet(player[1],board.size);
 				}
-			}
+				else InitPlayer(1);
 		}
 		private void InitRandomFleet(Player player,int mapSize) {
 			Random random = new();
@@ -118,6 +126,7 @@ namespace Codecool.Battleship
 		public Battleship(Input cin,Display cout) {
 			Screen = cout;
 			Keyboard = cin;
+			Fleet = new();
 		}
 		public void Info() {
 			string[] readText = File.ReadAllLines("Battleship.inf");
@@ -125,7 +134,7 @@ namespace Codecool.Battleship
 		}
 		public void Init() {
 			Screen.Show("Pick board size:");
-			board = new(Keyboard.ReadInt());
+			board = new Board(Keyboard.ReadInt());
 			DefineFleet();
 			InitPlayers();
 			currentPlayer = 0;

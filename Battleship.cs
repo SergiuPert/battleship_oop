@@ -113,8 +113,8 @@ namespace Codecool.Battleship {
 			return new Ship(where, size, dir);
 		}
 		private Ship AutoRegisterShip(Location where, int size) {
-			Random random = new();
-			int dir = random.Next()%4 + 1;
+			Random random = new Random();
+			int dir = random.Next(4) + 1;
 			return new Ship(where, size, dir);
 		}
 		private int WinMessage(int who) {

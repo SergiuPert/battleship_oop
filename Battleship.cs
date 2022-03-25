@@ -4,8 +4,7 @@ using Codecool.Battleship.DataModel;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Codecool.Battleship
-{
+namespace Codecool.Battleship {
 	public enum BoatType{
 		Submarine = 1,
 		Destroyer = 2,
@@ -23,8 +22,7 @@ namespace Codecool.Battleship
 		private void DefineFleet() {
 			Screen.Show("How many ships do you wish to have?");
 			int size = Keyboard.ReadInt();
-			for (int i = 0; i < size; i++)
-			{
+			for (int i = 0; i < size; i++) {
 				Screen.Show($"Please select desired type for ship {i + 1}:\n1.Submarine\n2.Destroyer\n3.Cruiser\n4.Battleship\n5.Carrier\n");
 				switch (Keyboard.ReadInt()){
 					case 1: { Fleet.Add((int)BoatType.Submarine); break; }
@@ -35,22 +33,18 @@ namespace Codecool.Battleship
 				}
 			}
 		}
-		private void InitPlayer(int i)
-		{
+		private void InitPlayer(int i) {
 			Screen.Clear();
 			Screen.Show($"Player {i + 1}, please state your name.");
 			player[i] = new Player(Keyboard.ReadString());
 			Screen.Show("Do you wish to configure your ships manually(y/n)?");
 			if (Keyboard.ReadString() != "y") InitRandomFleet(player[i], board.size);
-			else
-			{
-				for (int j = 0; j < Fleet.Count; j++)
-				{
+			else {
+				for (int j = 0; j < Fleet.Count; j++) {
 					board.PlaceShips(player[i]);
 					Screen.Clear();
 					Screen.PrintBoard(board);
-					for (; ; )
-					{
+					for (; ; ) {
 						Screen.Show($"Please enter desired location of ship {j + 1}. Length of ship is {Fleet[j]}.");
 						Location place = RequestCoords();
 						Ship boat = RegisterShip(place, Fleet[j]);
@@ -69,8 +63,7 @@ namespace Codecool.Battleship
 			player = new Player[2];
 			Screen.Show("Please entered desired game mode:\n1.PvP\n2.PvE\n3.EvP\n4.EvE");
 			int mode = Keyboard.ReadInt();
-				if (mode > 2)
-				{
+				if (mode > 2) {
 					player[0] = new Player($"AiPlayer{0}");
 					player[0].IsAI = !player[0].IsAI;
 					InitRandomFleet(player[0], board.size);
@@ -96,8 +89,7 @@ namespace Codecool.Battleship
 				}
 			}
 		}
-		private bool ValidateShip(Player player,Ship boat)
-		{
+		private bool ValidateShip(Player player,Ship boat) {
 			List<Location> fields = new();
 			foreach (Ship ship in player.ships) fields.AddRange(ship.GetShadowMap());
 			foreach (Location tile in boat.GetFieldMap()) if (!board.ValidLocation(tile) || tile.LocationInList(fields)) return false;
@@ -120,10 +112,9 @@ namespace Codecool.Battleship
 			}
 			return new Ship(where, size, dir);
 		}
-		private Ship AutoRegisterShip(Location where, int size)
-		{
-			Random random = new Random(4);
-			int dir = random.Next() + 1;
+		private Ship AutoRegisterShip(Location where, int size) {
+			Random random = new();
+			int dir = random.Next()%4 + 1;
 			return new Ship(where, size, dir);
 		}
 		private int WinMessage(int who) {
@@ -152,8 +143,12 @@ namespace Codecool.Battleship
 			board.Reset();
 			board.PlaceMoves(player[currentPlayer]);
 			Screen.PrintBoard(board);
-			Screen.Show($"{player[currentPlayer].Name} pick your move.");
-			Location guess = Keyboard.ReadLocation();
+			Location guess;
+			if (player[currentPlayer].IsAI) guess = player[currentPlayer].PickHit(board.size);
+			else {
+				Screen.Show($"{player[currentPlayer].Name} pick your move.");
+				guess = Keyboard.ReadLocation();
+			}
 			int move = 0;
             Screen.Clear();
             if (board.ValidLocation(guess)) move=player[currentPlayer].CheckIfHit(guess,player[(currentPlayer+1)%2]);

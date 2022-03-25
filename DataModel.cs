@@ -201,10 +201,10 @@ namespace Codecool.Battleship.DataModel {
 		}
 		public Location PickHit(int maxSize) 
 		{ 
-			Random random = new(maxSize);
+			Random random = new();
 			while (true)
 			{
-				Location location = new(random.Next(), random.Next());
+				Location location = new(random.Next(1, maxSize), random.Next(1, maxSize));
 				if (!location.LocationInList(hits)&&!location.LocationInList(misses)&&!location.LocationInList(sunks)) return location;
 			}
 		}
